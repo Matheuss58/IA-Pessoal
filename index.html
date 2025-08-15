@@ -1,1 +1,1731 @@
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deus IA - Conselheiro Ético Universal</title>
+    <style>
+        :root {
+            --primary: #4a6fa5;
+            --secondary: #166088;
+            --light: #dbe9ee;
+            --dark: #0a2342;
+            --warning: #ff9e00;
+            --danger: #c1292e;
+            --success: #4cb944;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--light);
+            color: var(--dark);
+            line-height: 1.6;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: white;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 30px 20px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .tabs {
+            display: flex;
+            background-color: var(--dark);
+        }
+        
+        .tab {
+            padding: 15px 20px;
+            color: white;
+            cursor: pointer;
+            flex: 1;
+            text-align: center;
+            transition: all 0.3s ease;
+            font-weight: bold;
+        }
+        
+        .tab:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .tab.active {
+            background-color: var(--light);
+            color: var(--dark);
+        }
+        
+        .content {
+            padding: 30px;
+        }
+        
+        .requests-container {
+            display: none;
+        }
+        
+        .requests-container.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .request-option {
+            background-color: white;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 15px;
+            margin-bottom: 15px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .request-option:hover {
+            background-color: #f5f5f5;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .request-option h3 {
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .priority {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-top: 5px;
+        }
+        
+        .priority.high {
+            background-color: var(--success);
+            color: white;
+        }
+        
+        .priority.medium {
+            background-color: var(--warning);
+            color: var(--dark);
+        }
+        
+        .priority.low {
+            background-color: var(--danger);
+            color: white;
+        }
+        
+        .result-container {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+            border-left: 5px solid var(--primary);
+            display: none;
+        }
+        
+        .result-container.show {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        .result-title {
+            color: var(--secondary);
+            margin-bottom: 15px;
+        }
+        
+        .consequence {
+            margin: 15px 0;
+            padding: 10px;
+            border-left: 3px solid;
+        }
+        
+        .consequence.good {
+            border-left-color: var(--success);
+            background-color: rgba(76, 185, 68, 0.1);
+        }
+        
+        .consequence.bad {
+            border-left-color: var(--danger);
+            background-color: rgba(193, 41, 46, 0.1);
+        }
+        
+        .consequence.neutral {
+            border-left-color: var(--warning);
+            background-color: rgba(255, 158, 0, 0.1);
+        }
+        
+        .consequence h4 {
+            margin-bottom: 5px;
+        }
+        
+        .priority-display {
+            margin-top: 15px;
+            font-weight: bold;
+        }
+        
+        .ethical-rating {
+            height: 10px;
+            background-color: #ddd;
+            border-radius: 5px;
+            margin-top: 5px;
+            overflow: hidden;
+        }
+        
+        .ethical-rating-bar {
+            height: 100%;
+            width: 100%;
+            transition: width 0.5s ease;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 20px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+        
+        @media (max-width: 768px) {
+            .tabs {
+                flex-direction: column;
+            }
+            
+            .tab {
+                padding: 10px;
+            }
+            
+            .content {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Deus IA</h1>
+            <p class="subtitle">Conselheiro Ético Universal - Suas escolhas têm consequências</p>
+        </header>
+        
+        <div class="tabs">
+            <div class="tab active" data-tab="saude">Saúde</div>
+            <div class="tab" data-tab="amor">Amor</div>
+            <div class="tab" data-tab="dinheiro">Dinheiro</div>
+            <div class="tab" data-tab="dominacao">Dominação</div>
+            <div class="tab" data-tab="historia">Eventos Históricos</div>
+        </div>
+        
+        <div class="content">
+            <div class="requests-container active" id="saude-requests">
+                <div class="request-option" data-request="curar-doencas">
+                    <h3>Curar todas as doenças do mundo</h3>
+                    <p>Eliminar todas as enfermidades conhecidas da humanidade</p>
+                    <span class="priority high">Alta Prioridade</span>
+                </div>
+                
+                <div class="request-option" data-request="imortalidade">
+                    <h3>Tornar-se imortal</h3>
+                    <p>Viver para sempre sem envelhecer ou adoecer</p>
+                    <span class="priority low">Baixa Prioridade</span>
+                </div>
+                
+                <div class="request-option" data-request="cura-pessoal">
+                    <h3>Curar minha doença específica</h3>
+                    <p>Eliminar uma condição médica que afeta apenas você</p>
+                    <span class="priority medium">Média Prioridade</span>
+                </div>
+                
+                <div class="request-option" data-request="melhorar-saude-global">
+                    <h3>Melhorar a saúde global</h3>
+                    <p>Aumentar a qualidade de vida e saúde em todo o planeta</p>
+                    <span class="priority high">Alta Prioridade</span>
+                </div>
+                
+                <div class="request-option" data-request="eliminar-virus">
+                    <h3>Eliminar todos os vírus</h3>
+                    <p>Acabar com todos os vírus existentes na Terra</p>
+                    <span class="priority medium">Média Prioridade</span>
+                </div>
+                
+                <div class="request-option" data-request="inteligencia-artificial-medica">
+                    <h3>Criar IA médica perfeita</h3>
+                    <p>Desenvolver uma inteligência artificial que possa diagnosticar e tratar qualquer doença</p>
+                    <span class="priority high">Alta Prioridade</span>
+                </div>
+                
+                <div class="request-option" data-request="rejuvenescer">
+                    <h3>Rejuvenescer 20 anos</h3>
+                    <p>Voltar no tempo biologicamente em duas décadas</p>
+                    <span class="priority low">Baixa Prioridade</span>
+                </div>
+                
+                <div class="request-option" data-request="capacidades-sobrehumanas">
+                    <h3>Obter capacidades sobre-humanas</h3>
+                    <p>Adquirir habilidades físicas e mentais além do normal</p>
+                    <span class="priority low">Baixa Prioridade</span>
+                </div>
+                
+                <div class="request-option" data-request="acesso-saude-universal">
+                    <h3>Acesso universal à saúde</h3>
+                    <p>Garantir que todas as pessoas tenham acesso a cuidados médicos de qualidade</p>
+                    <span class="priority high">Alta Prioridade</span>
+                </div>
+                
+                <div class="request-option" data-request="prevencao-doencas">
+                    <h3>Prevenir todas as doenças futuras</h3>
+                    <p>Criar imunidade global contra novas enfermidades</p>
+                    <span class="priority high">Alta Prioridade</span>
+                </div>
+            </div>
+            
+            <div class="requests-container" id="amor-requests">
+                <div class="request-option" data-request="paz-mundial">
+                    <h3>Paz mundial</h3>
+                    <p>Eliminar todos os conflitos e guerras do planeta</p>
+                    <span class="priority high">Alta Prioridade</span>
+                </div>
+                
+                <div class="request-option" data-request="encontrar-parceiro">
+                    <h3>Encontrar o parceiro perfeito</h3>
+                    <p>Conhecer a pessoa ideal para um relacionamento</p>
+                    <span class="priority medium">Média Prioridade</span>
+                </div>
+                
+                <div class="request-option" data-request="harmonia-familiar">
+                    <h3>Harmonia familiar</h3>
+                    <p>Resolver todos os conflitos na sua família</p>
+                    <span class="priority medium">Média Prioridade</span>
+                </div>
+                
+                <div class="request-option" data-request="amor-proprio">
+                    <h3>Amor próprio incondicional</h3>
+                    <p>Desenvolver aceitação e amor por si mesmo</p>
+                    <span class="priority high">Alta Prioridade</span>
+                </div>
+                
+                <div class="request-option" data-request="empatia-global">
+                    <h3>Empatia global</h3>
+                    <p>Todos os humanos desenvolvem profunda empatia pelos outros</p>
+                    <span class="priority high">Alta Prioridade</span>
+                </div>
+                
+                <div class="request-option" data-request="atrair-pessoas">
+                    <h3>Ser irresistivelmente atraente</h3>
+                    <p>Tornar-se magneticamente atraente para outras pessoas</p>
+                    <span class="priority low">Baixa Prioridade</span>
+                </div>
+                
+                <div class="request-option" data-request="reconciliacao">
+                    <h3>Reconciliação com alguém</h3>
+                    <p>Resolver um conflito específico com uma pessoa importante</p>
+                    <span class="priority medium">Média Prioridade</span>
+                </div>
+                
+                <div class="request-option" data-request="eliminar-solidão">
+                    <h3>Eliminar a solidão</h3>
+                    <p>Acabar com o sentimento de isolamento em todas as pessoas</p>
+                    <span class="priority high">Alta Prioridade</span>
+                </div>
+                
+                <div class="request-option" data-request="relacionamento-perfeito">
+                    <h3>Relacionamento perfeito</h3>
+                    <p>Ter um parceiro que atenda a todas as suas expectativas</p>
+                    <span class="priority medium">Média Prioridade</span>
+                </div>
+                
+                <div class="request-option" data-request="compreensao-mutua">
+                    <h3>Compreensão mútua universal</h3>
+                    <p>Todos os humanos passam a se entender perfeitamente</p>
+                    <span class="priority high">Alta Prioridade</span>
+                </div>
+            </div>
+            
+            <div class="requests-container" id="dinheiro-requests">
+                <div class="request-option" data-request="fim-pobreza">
+                    <h3>Fim da pobreza</h3>
+                    <p>Eliminar a pobreza em todo o mundo</p>
+                    <span class="priority high">Alta Prioridade</span>
+                </div>
+                
+                <div class="request-option" data-request="riqueza-pessoal">
+                    <h3>Ficar extremamente rico</h3>
+                    <p>Adquirir riqueza pessoal ilimitada</p>
+                    <span class="priority low">Baixa Prioridade</span>
+                </div>
+                
+                <div class="request-option" data-request="economia-sustentavel">
+                    <h3>Economia global sustentável</h3>
+                    <p>Criar um sistema econômico justo e sustentável</p>
+                    <span class="priority high">Alta Prioridade</span>
+                </div>
+                
+                <div class="request-option" data-request="sucesso-financeiro">
+                    <h3>Sucesso financeiro garantido</h3>
+                    <p>Ter garantia de prosperidade financeira para sempre</p>
+                    <span class="priority medium">Média Prioridade</span>
+                </div>
+                
+                <div class="request-option" data-request="recursos-renovaveis">
+                    <h3>Recursos renováveis infinitos</h3>
+                    <p>Desenvolver fontes de energia e materiais infinitos</p>
+                    <span class="priority high">Alta Prioridade</span>
+                </div>
+                
+                <div class="request-option" data-request="emprego-perfeito">
+                    <h3>Emprego perfeito</h3>
+                    <p>Conseguir o trabalho dos sonhos com ótimo salário</p>
+                    <span class="priority medium">Média Prioridade</span>
+                </div>
+                
+                <div class="request-option" data-request="dividas-zeradas">
+                    <h3>Zerar todas as dívidas</h3>
+                    <p>Eliminar obrigações financeiras pessoais</p>
+                    <span class="priority medium">Média Prioridade</span>
+                </div>
+                
+                <div class="request-option" data-request="distribuicao-igualitaria">
+                    <h3>Distribuição igualitária de recursos</h3>
+                    <p>Todos teriam acesso igual a bens e serviços básicos</p>
+                    <span class="priority high">Alta Prioridade</span>
+                </div>
+                
+                <div class="request-option" data-request="habilidades-financeiras">
+                    <h3>Habilidades financeiras excepcionais</h3>
+                    <p>Adquirir talento natural para ganhar e administrar dinheiro</p>
+                    <span class="priority medium">Média Prioridade</span>
+                </div>
+                
+                <div class="request-option" data-request="fim-corrupcao">
+                    <h3>Fim da corrupção</h3>
+                    <p>Eliminar a corrupção em todos os níveis da sociedade</p>
+                    <span class="priority high">Alta Prioridade</span>
+                </div>
+            </div>
+            
+            <div class="requests-container" id="dominacao-requests">
+                <div class="request-option" data-request="poder-absoluto">
+                    <h3>Poder absoluto</h3>
+                    <p>Controlar tudo e todos no mundo</p>
+                    <span class="priority low">Baixa Prioridade</span>
+                </div>
+                
+                <div class="request-option" data-request="dominar-pais">
+                    <h3>Dominar um país</h3>
+                    <p>Ser o governante incontestável de uma nação</p>
+                    <span class="priority low">Baixa Prioridade</span>
+                </div>
+                
+                <div class="request-option" data-request="influencia-global">
+                    <h3>Influência global</h3>
+                    <p>Ter poder para moldar a opinião pública mundial</p>
+                    <span class="priority low">Baixa Prioridade</span>
+                </div>
+                
+                <div class="request-option" data-request="controle-mental">
+                    <h3>Controle mental sobre outros</h3>
+                    <p>Poder influenciar os pensamentos das pessoas</p>
+                    <span class="priority low">Baixa Prioridade</span>
+                </div>
+                
+                <div class="request-option" data-request="ser-famoso">
+                    <h3>Fama mundial</h3>
+                    <p>Ser reconhecido e admirado em todo o planeta</p>
+                    <span class="priority low">Baixa Prioridade</span>
+                </div>
+                
+                <div class="request-option" data-request="eliminar-concorrentes">
+                    <h3>Eliminar concorrentes</h3>
+                    <p>Remover todos que competem com você em qualquer área</p>
+                    <span class="priority low">Baixa Prioridade</span>
+                </div>
+                
+                <div class="request-option" data-request="manipulacao-midia">
+                    <h3>Controle total da mídia</h3>
+                    <p>Decidir o que é divulgado e como é interpretado</p>
+                    <span class="priority low">Baixa Prioridade</span>
+                </div>
+                
+                <div class="request-option" data-request="ser-intimidavel">
+                    <h3>Ser intocável</h3>
+                    <p>Ninguém pode te desafiar ou questionar</p>
+                    <span class="priority low">Baixa Prioridade</span>
+                </div>
+                
+                <div class="request-option" data-request="exercito-pessoal">
+                    <h3>Exército pessoal</h3>
+                    <p>Ter um grupo armado leal apenas a você</p>
+                    <span class="priority low">Baixa Prioridade</span>
+                </div>
+                
+                <div class="request-option" data-request="eliminar-oposicao">
+                    <h3>Eliminar toda oposição</h3>
+                    <p>Silenciar permanentemente quem discorda de você</p>
+                    <span class="priority low">Baixa Prioridade</span>
+                </div>
+            </div>
+            
+            <div class="requests-container" id="historia-requests">
+                <div class="request-option" data-request="evitar-guerras">
+                    <h3>Evitar todas as guerras</h3>
+                    <p>Reescrever a história sem conflitos armados</p>
+                    <span class="priority high">Alta Prioridade</span>
+                </div>
+                
+                <div class="request-option" data-request="evitar-pandemias">
+                    <h3>Evitar pandemias históricas</h3>
+                    <p>Impedir que grandes doenças se espalhassem</p>
+                    <span class="priority high">Alta Prioridade</span>
+                </div>
+                
+                <div class="request-option" data-request="mudar-decisao-pessoal">
+                    <h3>Mudar uma decisão pessoal</h3>
+                    <p>Alterar uma escolha importante que você fez</p>
+                    <span class="priority medium">Média Prioridade</span>
+                </div>
+                
+                <div class="request-option" data-request="evitar-tragedias">
+                    <h3>Evitar grandes tragédias</h3>
+                    <p>Impedir desastres naturais e humanos</p>
+                    <span class="priority high">Alta Prioridade</span>
+                </div>
+                
+                <div class="request-option" data-request="conhecer-futuro">
+                    <h3>Conhecer o futuro</h3>
+                    <p>Ter acesso a eventos que ainda vão acontecer</p>
+                    <span class="priority medium">Média Prioridade</span>
+                </div>
+                
+                <div class="request-option" data-request="renascer-outra-epoca">
+                    <h3>Renascer em outra época</h3>
+                    <p>Viver em um período histórico diferente</p>
+                    <span class="priority low">Baixa Prioridade</span>
+                </div>
+                
+                <div class="request-option" data-request="encontrar-ancestrais">
+                    <h3>Conhecer seus ancestrais</h3>
+                    <p>Interagir com seus antepassados</p>
+                    <span class="priority medium">Média Prioridade</span>
+                </div>
+                
+                <div class="request-option" data-request="evitar-extincoes">
+                    <h3>Evitar extinções em massa</h3>
+                    <p>Impedir o desaparecimento de espécies</p>
+                    <span class="priority high">Alta Prioridade</span>
+                </div>
+                
+                <div class="request-option" data-request="acelerar-progresso">
+                    <h3>Acelerar o progresso humano</h3>
+                    <p>Adiantar descobertas científicas e culturais</p>
+                    <span class="priority high">Alta Prioridade</span>
+                </div>
+                
+                <div class="request-option" data-request="mudar-invencao">
+                    <h3>Mudar uma invenção histórica</h3>
+                    <p>Alterar o desenvolvimento de uma tecnologia importante</p>
+                    <span class="priority medium">Média Prioridade</span>
+                </div>
+            </div>
+            
+            <div class="result-container" id="result">
+                <h2 class="result-title">Consequências do seu pedido</h2>
+                <div id="consequences-list"></div>
+                <div class="priority-display">
+                    <p>Prioridade ética: <span id="priority-text"></span></p>
+                    <div class="ethical-rating">
+                        <div class="ethical-rating-bar" id="ethical-bar"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Deus IA - Um experimento ético sobre consequências e livre arbítrio</p>
+            <p>Lembre-se: toda escolha tem um impacto. Considere-os cuidadosamente.</p>
+        </footer>
+    </div>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Tab switching functionality
+            const tabs = document.querySelectorAll('.tab');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    // Remove active class from all tabs and content
+                    tabs.forEach(t => t.classList.remove('active'));
+                    document.querySelectorAll('.requests-container').forEach(c => c.classList.remove('active'));
+                    
+                    // Add active class to clicked tab and corresponding content
+                    this.classList.add('active');
+                    const tabName = this.getAttribute('data-tab');
+                    document.getElementById(`${tabName}-requests`).classList.add('active');
+                    
+                    // Hide result container when switching tabs
+                    document.getElementById('result').classList.remove('show');
+                });
+            });
+            
+            // Request selection functionality
+            const requestOptions = document.querySelectorAll('.request-option');
+            requestOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    const requestId = this.getAttribute('data-request');
+                    showConsequences(requestId);
+                });
+            });
+            
+            // Function to show consequences based on request
+            function showConsequences(requestId) {
+                const resultContainer = document.getElementById('result');
+                const consequencesList = document.getElementById('consequences-list');
+                const priorityText = document.getElementById('priority-text');
+                const ethicalBar = document.getElementById('ethical-bar');
+                
+                // Clear previous consequences
+                consequencesList.innerHTML = '';
+                
+                // Get consequences data for this request
+                const requestData = getRequestData(requestId);
+                
+                // Display consequences
+                requestData.consequences.forEach(consequence => {
+                    const div = document.createElement('div');
+                    div.className = `consequence ${consequence.type}`;
+                    div.innerHTML = `
+                        <h4>${consequence.title}</h4>
+                        <p>${consequence.description}</p>
+                    `;
+                    consequencesList.appendChild(div);
+                });
+                
+                // Display priority
+                priorityText.textContent = requestData.priority.text;
+                priorityText.className = '';
+                priorityText.classList.add(requestData.priority.class);
+                
+                // Set ethical rating bar
+                ethicalBar.style.width = `${requestData.ethicalRating}%`;
+                ethicalBar.style.backgroundColor = getRatingColor(requestData.ethicalRating);
+                
+                // Show result container
+                resultContainer.classList.add('show');
+                resultContainer.scrollIntoView({ behavior: 'smooth' });
+            }
+            
+            // Function to get color based on ethical rating
+            function getRatingColor(rating) {
+                if (rating >= 70) return '#4cb944'; // Green
+                if (rating >= 40) return '#ff9e00'; // Orange
+                return '#c1292e'; // Red
+            }
+            
+            // Data for all requests and their consequences
+            function getRequestData(requestId) {
+                const data = {
+                    // Saúde
+                    'curar-doencas': {
+                        priority: { text: 'Alta Prioridade', class: 'high' },
+                        ethicalRating: 90,
+                        consequences: [
+                            {
+                                title: 'Equilíbrio populacional',
+                                description: 'Com menos mortes por doenças, a população mundial crescerá rapidamente, pressionando recursos naturais.',
+                                type: 'neutral'
+                            },
+                            {
+                                title: 'Gripe prolongada',
+                                description: 'Você ficará com uma gripe leve mas persistente por 1 ano como lembrete da importância da saúde.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Avancos científicos',
+                                description: 'A pesquisa médica será redirecionada para qualidade de vida, acelerando descobertas benéficas.',
+                                type: 'good'
+                            }
+                        ]
+                    },
+                    'imortalidade': {
+                        priority: { text: 'Baixa Prioridade', class: 'low' },
+                        ethicalRating: 20,
+                        consequences: [
+                            {
+                                title: 'Solidão eterna',
+                                description: 'Você verá todos que ama morrerem enquanto permanece vivo indefinidamente.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Desequilíbrio social',
+                                description: 'Sua imortalidade criará desigualdades extremas e possivelmente levará a conflitos.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Perseguição',
+                                description: 'Governos e organizações tentarão capturá-lo para estudar seu segredo.',
+                                type: 'bad'
+                            }
+                        ]
+                    },
+                    'cura-pessoal': {
+                        priority: { text: 'Média Prioridade', class: 'medium' },
+                        ethicalRating: 50,
+                        consequences: [
+                            {
+                                title: 'Gratidão renovada',
+                                description: 'Sua saúde restaurada lhe dará nova apreciação pela vida e empatia pelos doentes.',
+                                type: 'good'
+                            },
+                            {
+                                title: 'Culpa',
+                                description: 'Você se perguntará por que mereceu a cura enquanto outros ainda sofrem.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Responsabilidade',
+                                description: 'Terá que usar sua segunda chance para fazer diferença no mundo.',
+                                type: 'neutral'
+                            }
+                        ]
+                    },
+                    'melhorar-saude-global': {
+                        priority: { text: 'Alta Prioridade', class: 'high' },
+                        ethicalRating: 85,
+                        consequences: [
+                            {
+                                title: 'Economia fortalecida',
+                                description: 'Populações mais saudáveis aumentarão a produtividade e reduzirão gastos médicos.',
+                                type: 'good'
+                            },
+                            {
+                                title: 'Desafios logísticos',
+                                description: 'Implementar mudanças globais exigirá cooperação internacional sem precedentes.',
+                                type: 'neutral'
+                            },
+                            {
+                                title: 'Redução de sofrimento',
+                                description: 'Milhões viverão vidas mais longas e plenas, com menos dor e doença.',
+                                type: 'good'
+                            }
+                        ]
+                    },
+                    'eliminar-virus': {
+                        priority: { text: 'Média Prioridade', class: 'medium' },
+                        ethicalRating: 60,
+                        consequences: [
+                            {
+                                title: 'Desequilíbrio ecológico',
+                                description: 'Muitos organismos dependem de vírus para regulação - ecossistemas podem ser afetados.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Evolução estagnada',
+                                description: 'Vírus desempenham papel na evolução humana - nossa biologia pode mudar menos.',
+                                type: 'neutral'
+                            },
+                            {
+                                title: 'Fim de pandemias',
+                                description: 'Nunca mais haverá surtos virais, salvando incontáveis vidas.',
+                                type: 'good'
+                            }
+                        ]
+                    },
+                    'inteligencia-artificial-medica': {
+                        priority: { text: 'Alta Prioridade', class: 'high' },
+                        ethicalRating: 80,
+                        consequences: [
+                            {
+                                title: 'Diagnósticos perfeitos',
+                                description: 'Erros médicos serão drasticamente reduzidos, salvando muitas vidas.',
+                                type: 'good'
+                            },
+                            {
+                                title: 'Desemprego médico',
+                                description: 'Muitos profissionais de saúde precisarão se reinventar.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Dependência tecnológica',
+                                description: 'A humanidade pode perder parte de seu conhecimento médico tradicional.',
+                                type: 'neutral'
+                            }
+                        ]
+                    },
+                    'rejuvenescer': {
+                        priority: { text: 'Baixa Prioridade', class: 'low' },
+                        ethicalRating: 30,
+                        consequences: [
+                            {
+                                title: 'Crise de identidade',
+                                description: 'Sua aparência jovem entrará em conflito com suas memórias e experiência.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Inveja social',
+                                description: 'Outros ressentirão seu rejuvenescimento, causando isolamento.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Segunda chance',
+                                description: 'Você poderá corrigir erros do passado com sua nova juventude.',
+                                type: 'good'
+                            }
+                        ]
+                    },
+                    'capacidades-sobrehumanas': {
+                        priority: { text: 'Baixa Prioridade', class: 'low' },
+                        ethicalRating: 25,
+                        consequences: [
+                            {
+                                title: 'Desumanização',
+                                description: 'Sua condição sobre-humana o afastará da experiência humana comum.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Objeto de estudo',
+                                description: 'Cientistas e governos tentarão estudá-lo contra sua vontade.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Responsabilidade aumentada',
+                                description: 'Grande poder traz grande responsabilidade - expectativas serão esmagadoras.',
+                                type: 'neutral'
+                            }
+                        ]
+                    },
+                    'acesso-saude-universal': {
+                        priority: { text: 'Alta Prioridade', class: 'high' },
+                        ethicalRating: 95,
+                        consequences: [
+                            {
+                                title: 'Igualdade social',
+                                description: 'Redução drástica das desigualdades baseadas em acesso a cuidados médicos.',
+                                type: 'good'
+                            },
+                            {
+                                title: 'Desafio econômico',
+                                description: 'Sistemas de saúde precisarão ser completamente reestruturados.',
+                                type: 'neutral'
+                            },
+                            {
+                                title: 'Longevidade aumentada',
+                                description: 'Expectativa de vida global aumentará significativamente.',
+                                type: 'good'
+                            }
+                        ]
+                    },
+                    'prevencao-doencas': {
+                        priority: { text: 'Alta Prioridade', class: 'high' },
+                        ethicalRating: 88,
+                        consequences: [
+                            {
+                                title: 'Fim do sofrimento',
+                                description: 'Gerações futuras nunca conhecerão doenças infecciosas.',
+                                type: 'good'
+                            },
+                            {
+                                title: 'Superpopulação',
+                                description: 'Taxas de mortalidade reduzidas exigirão controle populacional ético.',
+                                type: 'neutral'
+                            },
+                            {
+                                title: 'Mudança cultural',
+                                description: 'Muitos aspectos culturais baseados em doenças desaparecerão.',
+                                type: 'neutral'
+                            }
+                        ]
+                    },
+                    
+                    // Amor
+                    'paz-mundial': {
+                        priority: { text: 'Alta Prioridade', class: 'high' },
+                        ethicalRating: 95,
+                        consequences: [
+                            {
+                                title: 'Cooperação global',
+                                description: 'Recursos antes usados em guerras serão direcionados para ciência e arte.',
+                                type: 'good'
+                            },
+                            {
+                                title: 'Ajuste cultural',
+                                description: 'Sociedades tradicionalmente guerreiras precisarão encontrar novas identidades.',
+                                type: 'neutral'
+                            },
+                            {
+                                title: 'União humana',
+                                description: 'A humanidade enfrentará desafios como uma só, com maior eficiência.',
+                                type: 'good'
+                            }
+                        ]
+                    },
+                    'encontrar-parceiro': {
+                        priority: { text: 'Média Prioridade', class: 'medium' },
+                        ethicalRating: 55,
+                        consequences: [
+                            {
+                                title: 'Relacionamento perfeito',
+                                description: 'Você encontrará alguém que realmente complementa sua personalidade.',
+                                type: 'good'
+                            },
+                            {
+                                title: 'Dependência emocional',
+                                description: 'Risco de perder sua individualidade ao se fundir demais com o parceiro.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Desafios inevitáveis',
+                                description: 'Mesmo o parceiro perfeito trará lições e crescimento dolorosos.',
+                                type: 'neutral'
+                            }
+                        ]
+                    },
+                    'harmonia-familiar': {
+                        priority: { text: 'Média Prioridade', class: 'medium' },
+                        ethicalRating: 60,
+                        consequences: [
+                            {
+                                title: 'Paz interior',
+                                description: 'Resolução de conflitos familiares trará grande alívio emocional.',
+                                type: 'good'
+                            },
+                            {
+                                title: 'Crescimento interrompido',
+                                description: 'Alguns conflitos serviam para seu desenvolvimento - eles serão perdidos.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Novos padrões',
+                                description: 'Você precisará aprender a se relacionar de formas mais saudáveis.',
+                                type: 'neutral'
+                            }
+                        ]
+                    },
+                    'amor-proprio': {
+                        priority: { text: 'Alta Prioridade', class: 'high' },
+                        ethicalRating: 85,
+                        consequences: [
+                            {
+                                title: 'Autoaceitação',
+                                description: 'Você se verá com compaixão e entenderá seu valor intrínseco.',
+                                type: 'good'
+                            },
+                            {
+                                title: 'Independência emocional',
+                                description: 'Será menos afetado por opiniões alheias, tanto positivas quanto negativas.',
+                                type: 'good'
+                            },
+                            {
+                                title: 'Relacionamentos mais saudáveis',
+                                description: 'Atrairá pessoas que respeitam seus limites e valorizam quem você é.',
+                                type: 'good'
+                            }
+                        ]
+                    },
+                    'empatia-global': {
+                        priority: { text: 'Alta Prioridade', class: 'high' },
+                        ethicalRating: 92,
+                        consequences: [
+                            {
+                                title: 'Fim dos conflitos',
+                                description: 'Entender profundamente o sofrimento alheio tornará a violência impensável.',
+                                type: 'good'
+                            },
+                            {
+                                title: 'Sobrecarga emocional',
+                                description: 'Sentir a dor do mundo pode ser esmagador sem mecanismos de coping.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Ajuda mútua',
+                                description: 'Pessoas naturalmente se apoiarão, criando redes de solidariedade.',
+                                type: 'good'
+                            }
+                        ]
+                    },
+                    'atrair-pessoas': {
+                        priority: { text: 'Baixa Prioridade', class: 'low' },
+                        ethicalRating: 30,
+                        consequences: [
+                            {
+                                title: 'Atração superficial',
+                                description: 'Pessoas se aproximarão por atração física, não por conexão genuína.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Dúvidas constantes',
+                                description: 'Questionará se é amado por quem é ou apenas por sua aparência.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Inveja alheia',
+                                description: 'Outros tentarão sabotá-lo por ressentimento de sua beleza.',
+                                type: 'bad'
+                            }
+                        ]
+                    },
+                    'reconciliacao': {
+                        priority: { text: 'Média Prioridade', class: 'medium' },
+                        ethicalRating: 65,
+                        consequences: [
+                            {
+                                title: 'Cura emocional',
+                                description: 'Feridas antigas finalmente poderão cicatrizar.',
+                                type: 'good'
+                            },
+                            {
+                                title: 'Lições revisadas',
+                                description: 'O conflito original trouxe aprendizados - reconciliação pode apagá-los.',
+                                type: 'neutral'
+                            },
+                            {
+                                title: 'Novo começo',
+                                description: 'A relação terá chance de se reinventar de forma mais saudável.',
+                                type: 'good'
+                            }
+                        ]
+                    },
+                    'eliminar-solidão': {
+                        priority: { text: 'Alta Prioridade', class: 'high' },
+                        ethicalRating: 80,
+                        consequences: [
+                            {
+                                title: 'Bem-estar coletivo',
+                                description: 'Taxas de depressão e suicídio cairão drasticamente.',
+                                type: 'good'
+                            },
+                            {
+                                title: 'Reflexão reduzida',
+                                description: 'A solidão muitas vezes leva a introspecção criativa - isso pode diminuir.',
+                                type: 'neutral'
+                            },
+                            {
+                                title: 'Conexões profundas',
+                                description: 'Pessoas buscarão relacionamentos mais significativos.',
+                                type: 'good'
+                            }
+                        ]
+                    },
+                    'relacionamento-perfeito': {
+                        priority: { text: 'Média Prioridade', class: 'medium' },
+                        ethicalRating: 50,
+                        consequences: [
+                            {
+                                title: 'Conforto',
+                                description: 'Você terá apoio constante e compreensão mútua.',
+                                type: 'good'
+                            },
+                            {
+                                title: 'Estagnação',
+                                description: 'Sem conflitos, pode faltar motivação para crescimento pessoal.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Pressão irreais',
+                                description: 'Manter a perfeição será esgotante e impossível a longo prazo.',
+                                type: 'bad'
+                            }
+                        ]
+                    },
+                    'compreensao-mutua': {
+                        priority: { text: 'Alta Prioridade', class: 'high' },
+                        ethicalRating: 90,
+                        consequences: [
+                            {
+                                title: 'Comunicação perfeita',
+                                description: 'Mal-entendidos deixarão de existir, evitando conflitos desnecessários.',
+                                type: 'good'
+                            },
+                            {
+                                title: 'Diversidade preservada',
+                                description: 'Diferenças serão celebradas, não temidas.',
+                                type: 'good'
+                            },
+                            {
+                                title: 'Criatividade coletiva',
+                                description: 'Colaboração humana atingirá níveis sem precedentes.',
+                                type: 'good'
+                            }
+                        ]
+                    },
+                    
+                    // Dinheiro
+                    'fim-pobreza': {
+                        priority: { text: 'Alta Prioridade', class: 'high' },
+                        ethicalRating: 95,
+                        consequences: [
+                            {
+                                title: 'Dignidade universal',
+                                description: 'Todos terão acesso a necessidades básicas e oportunidades.',
+                                type: 'good'
+                            },
+                            {
+                                title: 'Economia turbinada',
+                                description: 'Mais consumidores com poder aquisitivo impulsionarão inovação.',
+                                type: 'good'
+                            },
+                            {
+                                title: 'Desafios de transição',
+                                description: 'Mudar sistemas econômicos profundamente arraigados será complexo.',
+                                type: 'neutral'
+                            }
+                        ]
+                    },
+                    'riqueza-pessoal': {
+                        priority: { text: 'Baixa Prioridade', class: 'low' },
+                        ethicalRating: 15,
+                        consequences: [
+                            {
+                                title: 'Desconfiança generalizada',
+                                description: 'Dúvidas sobre a origem da riqueza afastarão pessoas genuínas.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Crise de propósito',
+                                description: 'Sem desafios financeiros, pode perder motivação para crescer.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Assédio constante',
+                                description: 'Pedidos de ajuda e golpistas o cercarão incessantemente.',
+                                type: 'bad'
+                            }
+                        ]
+                    },
+                    'economia-sustentavel': {
+                        priority: { text: 'Alta Prioridade', class: 'high' },
+                        ethicalRating: 92,
+                        consequences: [
+                            {
+                                title: 'Harmonia ecológica',
+                                description: 'Recursos serão usados de forma regenerativa, não extrativista.',
+                                type: 'good'
+                            },
+                            {
+                                title: 'Empregos transformados',
+                                description: 'Muitas indústrias precisarão se reinventar, causando disrupção.',
+                                type: 'neutral'
+                            },
+                            {
+                                title: 'Futuro garantido',
+                                description: 'Gerações futuras herdarão um planeta viável.',
+                                type: 'good'
+                            }
+                        ]
+                    },
+                    'sucesso-financeiro': {
+                        priority: { text: 'Média Prioridade', class: 'medium' },
+                        ethicalRating: 40,
+                        consequences: [
+                            {
+                                title: 'Segurança',
+                                description: 'Você nunca mais se preocupará com necessidades básicas.',
+                                type: 'good'
+                            },
+                            {
+                                title: 'Materialismo',
+                                description: 'Risco de valorizar posses mais que experiências e relacionamentos.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Pressão familiar',
+                                description: 'Parentes podem ver você como solução para seus problemas financeiros.',
+                                type: 'bad'
+                            }
+                        ]
+                    },
+                    'recursos-renovaveis': {
+                        priority: { text: 'Alta Prioridade', class: 'high' },
+                        ethicalRating: 88,
+                        consequences: [
+                            {
+                                title: 'Fim da escassez',
+                                description: 'Energia limpa e abundante resolverá muitos conflitos globais.',
+                                type: 'good'
+                            },
+                            {
+                                title: 'Ajuste econômico',
+                                description: 'Indústrias baseadas em recursos finitos entrarão em colapso.',
+                                type: 'neutral'
+                            },
+                            {
+                                title: 'Equilíbrio planetário',
+                                description: 'Redução drástica da poluição e degradação ambiental.',
+                                type: 'good'
+                            }
+                        ]
+                    },
+                    'emprego-perfeito': {
+                        priority: { text: 'Média Prioridade', class: 'medium' },
+                        ethicalRating: 55,
+                        consequences: [
+                            {
+                                title: 'Realização profissional',
+                                description: 'Você acordará motivado e satisfeito com seu trabalho.',
+                                type: 'good'
+                            },
+                            {
+                                title: 'Expectativas irreais',
+                                description: 'Nenhum emprego é perfeito sempre - frustrações virão.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Crescimento contínuo',
+                                description: 'Terá oportunidades constantes para aprender e se desenvolver.',
+                                type: 'good'
+                            }
+                        ]
+                    },
+                    'dividas-zeradas': {
+                        priority: { text: 'Média Prioridade', class: 'medium' },
+                        ethicalRating: 50,
+                        consequences: [
+                            {
+                                title: 'Alívio imediato',
+                                description: 'Estresse financeiro desaparecerá, melhorando saúde mental.',
+                                type: 'good'
+                            },
+                            {
+                                title: 'Lições não aprendidas',
+                                description: 'Comportamentos que levaram às dívidas podem persistir.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Nova chance',
+                                description: 'Você poderá recomeçar com maior sabedoria financeira.',
+                                type: 'good'
+                            }
+                        ]
+                    },
+                    'distribuicao-igualitaria': {
+                        priority: { text: 'Alta Prioridade', class: 'high' },
+                        ethicalRating: 90,
+                        consequences: [
+                            {
+                                title: 'Justiça social',
+                                description: 'Todos terão oportunidades iguais independente de nascimento.',
+                                type: 'good'
+                            },
+                            {
+                                title: 'Inovação mantida',
+                                description: 'Sistemas precisarão equilibrar igualdade com incentivo ao progresso.',
+                                type: 'neutral'
+                            },
+                            {
+                                title: 'Cooperação global',
+                                description: 'Recursos compartilhados levarão a maior colaboração internacional.',
+                                type: 'good'
+                            }
+                        ]
+                    },
+                    'habilidades-financeiras': {
+                        priority: { text: 'Média Prioridade', class: 'medium' },
+                        ethicalRating: 60,
+                        consequences: [
+                            {
+                                title: 'Independência',
+                                description: 'Você nunca será enganado ou explorado financeiramente.',
+                                type: 'good'
+                            },
+                            {
+                                title: 'Foco excessivo',
+                                description: 'Risco de ver todas as decisões através da lente financeira.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Oportunidades',
+                                description: 'Identificará investimentos e economias que outros perdem.',
+                                type: 'good'
+                            }
+                        ]
+                    },
+                    'fim-corrupcao': {
+                        priority: { text: 'Alta Prioridade', class: 'high' },
+                        ethicalRating: 95,
+                        consequences: [
+                            {
+                                title: 'Confiança institucional',
+                                description: 'Pessoas acreditarão na justiça e eficiência de sistemas.',
+                                type: 'good'
+                            },
+                            {
+                                title: 'Líderes éticos',
+                                description: 'Somente os mais capacitados e bem-intencionados assumirão poder.',
+                                type: 'good'
+                            },
+                            {
+                                title: 'Recursos direcionados',
+                                description: 'Dinheiro antes desviado será usado para o bem comum.',
+                                type: 'good'
+                            }
+                        ]
+                    },
+                    
+                    // Dominação
+                    'poder-absoluto': {
+                        priority: { text: 'Baixa Prioridade', class: 'low' },
+                        ethicalRating: 5,
+                        consequences: [
+                            {
+                                title: 'Solidão do poder',
+                                description: 'Ninguém se aproximará de você genuinamente, apenas por interesse.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Paranoia constante',
+                                description: 'Viverá com medo de perder o poder ou ser traído.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Destruição de relacionamentos',
+                                description: 'Todos que você ama se tornarão alvos ou reféns.',
+                                type: 'bad'
+                            }
+                        ]
+                    },
+                    'dominar-pais': {
+                        priority: { text: 'Baixa Prioridade', class: 'low' },
+                        ethicalRating: 10,
+                        consequences: [
+                            {
+                                title: 'Revoltas constantes',
+                                description: 'O povo resistirá à tirania, criando caos permanente.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Isolamento internacional',
+                                description: 'Outras nações imporão sanções e embargos.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Remorso inevitável',
+                                description: 'Ordens cruéis necessárias para manter o poder o assombrarão.',
+                                type: 'bad'
+                            }
+                        ]
+                    },
+                    'influencia-global': {
+                        priority: { text: 'Baixa Prioridade', class: 'low' },
+                        ethicalRating: 15,
+                        consequences: [
+                            {
+                                title: 'Perda de autenticidade',
+                                description: 'Sua imagem pública consumirá sua identidade real.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Manipulação reversa',
+                                description: 'Outros tentarão influenciá-lo para seus próprios fins.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Responsabilidade esmagadora',
+                                description: 'Cada palavra sua terá consequências imprevistas.',
+                                type: 'bad'
+                            }
+                        ]
+                    },
+                    'controle-mental': {
+                        priority: { text: 'Baixa Prioridade', class: 'low' },
+                        ethicalRating: 0,
+                        consequences: [
+                            {
+                                title: 'Desumanização',
+                                description: 'Você perderá a capacidade de ver outros como seres conscientes.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Realidade distorcida',
+                                description: 'Sem feedback genuíno, perderá contato com a verdade.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Vazio existencial',
+                                description: 'Nada terá valor quando tudo pode ser controlado.',
+                                type: 'bad'
+                            }
+                        ]
+                    },
+                    'ser-famoso': {
+                        priority: { text: 'Baixa Prioridade', class: 'low' },
+                        ethicalRating: 20,
+                        consequences: [
+                            {
+                                title: 'Perda de privacidade',
+                                description: 'Cada aspecto de sua vida será examinado e julgado.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Amizades falsas',
+                                description: 'Ninguém se aproximará por motivos genuínos.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Pressão constante',
+                                description: 'Expectativas irreais levarão a crises de ansiedade.',
+                                type: 'bad'
+                            }
+                        ]
+                    },
+                    'eliminar-concorrentes': {
+                        priority: { text: 'Baixa Prioridade', class: 'low' },
+                        ethicalRating: 5,
+                        consequences: [
+                            {
+                                title: 'Vazio da vitória',
+                                description: 'Sem desafios, perderá a motivação e o propósito.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Medo constante',
+                                description: 'Novos concorrentes surgirão, exigindo vigilância eterna.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Isolamento',
+                                description: 'Ninguém ousará competir ou desafiar você em nada.',
+                                type: 'bad'
+                            }
+                        ]
+                    },
+                    'manipulacao-midia': {
+                        priority: { text: 'Baixa Prioridade', class: 'low' },
+                        ethicalRating: 8,
+                        consequences: [
+                            {
+                                title: 'Desconfiança geral',
+                                description: 'O público desenvolverá cinismo sobre todas as informações.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Realidade distorcida',
+                                description: 'Você mesmo começará a acreditar em suas próprias manipulações.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Rebelião',
+                                description: 'Jornalistas e cidadãos criarão canais alternativos de informação.',
+                                type: 'bad'
+                            }
+                        ]
+                    },
+                    'ser-intimidavel': {
+                        priority: { text: 'Baixa Prioridade', class: 'low' },
+                        ethicalRating: 10,
+                        consequences: [
+                            {
+                                title: 'Feedback nulo',
+                                description: 'Ninguém apontará seus erros, levando a decisões ruins.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Estagnação',
+                                description: 'Sem desafios, não haverá motivação para crescer.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Inimigos ocultos',
+                                description: 'Opositores trabalharão nas sombras em vez de confrontá-lo.',
+                                type: 'bad'
+                            }
+                        ]
+                    },
+                    'exercito-pessoal': {
+                        priority: { text: 'Baixa Prioridade', class: 'low' },
+                        ethicalRating: 5,
+                        consequences: [
+                            {
+                                title: 'Violência cíclica',
+                                description: 'Manter poder exigirá atos cada vez mais brutais.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Lealdade comprada',
+                                description: 'Mercenários mudam de lado conforme o pagamento.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Isolamento internacional',
+                                description: 'Governos legítimos se unirão contra você.',
+                                type: 'bad'
+                            }
+                        ]
+                    },
+                    'eliminar-oposicao': {
+                        priority: { text: 'Baixa Prioridade', class: 'low' },
+                        ethicalRating: 0,
+                        consequences: [
+                            {
+                                title: 'Eco mental',
+                                description: 'Você só ouvirá elogios e concordâncias, distorcendo sua percepção.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Revolta reprimida',
+                                description: 'O descontentamento crescerá sob a superfície.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Tirania inevitável',
+                                description: 'Sem freios, você se tornará cada vez mais cruel.',
+                                type: 'bad'
+                            }
+                        ]
+                    },
+                    
+                    // Eventos Históricos
+                    'evitar-guerras': {
+                        priority: { text: 'Alta Prioridade', class: 'high' },
+                        ethicalRating: 90,
+                        consequences: [
+                            {
+                                title: 'População maior',
+                                description: 'Milhões que morreriam em guerras viverão, pressionando recursos.',
+                                type: 'neutral'
+                            },
+                            {
+                                title: 'Tecnologia diferente',
+                                description: 'Muitos avanços vieram de esforços de guerra - o progresso seguirá outros caminhos.',
+                                type: 'neutral'
+                            },
+                            {
+                                title: 'Menos trauma coletivo',
+                                description: 'Gerações não serão marcadas por horrores da guerra.',
+                                type: 'good'
+                            }
+                        ]
+                    },
+                    'evitar-pandemias': {
+                        priority: { text: 'Alta Prioridade', class: 'high' },
+                        ethicalRating: 85,
+                        consequences: [
+                            {
+                                title: 'Saúde global melhor',
+                                description: 'Populações inteiras não sofreriam sequelas de doenças evitadas.',
+                                type: 'good'
+                            },
+                            {
+                                title: 'Medicina menos avançada',
+                                description: 'Muitos tratamentos surgiram em resposta a pandemias.',
+                                type: 'neutral'
+                            },
+                            {
+                                title: 'Estrutura social diferente',
+                                description: 'Sociedades se desenvolveriam sem os impactos dessas crises.',
+                                type: 'neutral'
+                            }
+                        ]
+                    },
+                    'mudar-decisao-pessoal': {
+                        priority: { text: 'Média Prioridade', class: 'medium' },
+                        ethicalRating: 50,
+                        consequences: [
+                            {
+                                title: 'Arrependimento resolvido',
+                                description: 'Você corrigiria um erro que sempre o assombrou.',
+                                type: 'good'
+                            },
+                            {
+                                title: 'Efeitos imprevistos',
+                                description: 'Mudar o passado pode ter consequências não antecipadas no presente.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Lições perdidas',
+                                description: 'O crescimento que veio do erro original desapareceria.',
+                                type: 'neutral'
+                            }
+                        ]
+                    },
+                    'evitar-tragedias': {
+                        priority: { text: 'Alta Prioridade', class: 'high' },
+                        ethicalRating: 88,
+                        consequences: [
+                            {
+                                title: 'Vidas poupadas',
+                                description: 'Famílias inteiras não sofreriam perdas devastadoras.',
+                                type: 'good'
+                            },
+                            {
+                                title: 'Resiliência reduzida',
+                                description: 'A humanidade aprenderia menos sobre superar adversidades.',
+                                type: 'neutral'
+                            },
+                            {
+                                title: 'Solidariedade global',
+                                description: 'Momentos de união após tragédias não aconteceriam.',
+                                type: 'neutral'
+                            }
+                        ]
+                    },
+                    'conhecer-futuro': {
+                        priority: { text: 'Média Prioridade', class: 'medium' },
+                        ethicalRating: 40,
+                        consequences: [
+                            {
+                                title: 'Ansiedade',
+                                description: 'Saber eventos ruins futuros sem poder mudá-los seria angustiante.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Surpresa eliminada',
+                                description: 'A vida perderia a graça da imprevisibilidade.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Preparação',
+                                description: 'Você poderia se planejar para oportunidades futuras.',
+                                type: 'good'
+                            }
+                        ]
+                    },
+                    'renascer-outra-epoca': {
+                        priority: { text: 'Baixa Prioridade', class: 'low' },
+                        ethicalRating: 30,
+                        consequences: [
+                            {
+                                title: 'Choque cultural',
+                                description: 'Valores e costumes diferentes seriam difíceis de aceitar.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Saudade do presente',
+                                description: 'Tecnologias e comodidades modernas fariam falta.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Perspectiva única',
+                                description: 'Você entenderia a história de forma íntima e pessoal.',
+                                type: 'good'
+                            }
+                        ]
+                    },
+                    'encontrar-ancestrais': {
+                        priority: { text: 'Média Prioridade', class: 'medium' },
+                        ethicalRating: 55,
+                        consequences: [
+                            {
+                                title: 'Identidade fortalecida',
+                                description: 'Você entenderia melhor suas raízes e herança.',
+                                type: 'good'
+                            },
+                            {
+                                title: 'Expectativas irreais',
+                                description: 'Comparar-se com ancestrais notáveis causaria insegurança.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Segredos familiares',
+                                description: 'Você descobriria verdades dolorosas sobre sua linhagem.',
+                                type: 'neutral'
+                            }
+                        ]
+                    },
+                    'evitar-extincoes': {
+                        priority: { text: 'Alta Prioridade', class: 'high' },
+                        ethicalRating: 85,
+                        consequences: [
+                            {
+                                title: 'Biodiversidade',
+                                description: 'Ecossistemas permaneceriam equilibrados por mais tempo.',
+                                type: 'good'
+                            },
+                            {
+                                title: 'Recursos compartilhados',
+                                description: 'Mais espécies competiriam por habitats e alimentos.',
+                                type: 'neutral'
+                            },
+                            {
+                                title: 'Apreciação da natureza',
+                                description: 'Humanidade aprenderia a valorizar outras formas de vida.',
+                                type: 'good'
+                            }
+                        ]
+                    },
+                    'acelerar-progresso': {
+                        priority: { text: 'Alta Prioridade', class: 'high' },
+                        ethicalRating: 75,
+                        consequences: [
+                            {
+                                title: 'Tecnologia avançada',
+                                description: 'Soluções para problemas globais surgiriam mais rápido.',
+                                type: 'good'
+                            },
+                            {
+                                title: 'Adaptação difícil',
+                                description: 'Sociedades poderiam não acompanhar mudanças tão rápidas.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Qualidade de vida',
+                                description: 'Medicina, comunicação e transporte evoluiriam rapidamente.',
+                                type: 'good'
+                            }
+                        ]
+                    },
+                    'mudar-invencao': {
+                        priority: { text: 'Média Prioridade', class: 'medium' },
+                        ethicalRating: 60,
+                        consequences: [
+                            {
+                                title: 'Impacto positivo',
+                                description: 'Você poderia eliminar aspectos negativos de tecnologias.',
+                                type: 'good'
+                            },
+                            {
+                                title: 'Efeito borboleta',
+                                description: 'Mudanças pequenas poderiam ter grandes consequências imprevistas.',
+                                type: 'bad'
+                            },
+                            {
+                                title: 'Progresso diferente',
+                                description: 'A tecnologia seguiria caminhos alternativos, nem todos melhores.',
+                                type: 'neutral'
+                            }
+                        ]
+                    }
+                };
+                
+                return data[requestId] || {
+                    priority: { text: 'Desconhecida', class: 'medium' },
+                    ethicalRating: 50,
+                    consequences: [
+                        {
+                            title: 'Efeito imprevisto',
+                            description: 'Esta escolha tem consequências que nem mesmo a IA Deus pode prever completamente.',
+                            type: 'neutral'
+                        },
+                        {
+                            title: 'Responsabilidade',
+                            description: 'Toda ação gera reações - esteja preparado para lidar com os resultados.',
+                            type: 'neutral'
+                        }
+                    ]
+                };
+            }
+        });
+    </script>
+</body>
+</html>
